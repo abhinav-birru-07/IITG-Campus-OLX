@@ -1,0 +1,117 @@
+/* CSS to image */
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+ /* Container needed to position the button. Adjust the width as needed */
+ .Imagecontainer {
+    position: relative;
+    width: 50%;
+    max-width: 400px;
+    margin: 50px;
+  }
+  
+  /* Make the image responsive */
+  .Imagecontainer img {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Style the button and place it in the middle of the container/image */
+  .Imagecontainer .btn {
+    position: absolute;
+    top: 80%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 16px;
+    font-weight: bolder;
+    font-family: 'Raleway', sans-serif;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+    /* border-radius: 5px; */
+    text-align: center;
+  }
+  
+  .Imagecontainer .btn:hover {
+    background-color: black;
+  } 
+
+  /* Making Card Link off */
+
+  .category-link a{
+    text-decoration: none;
+    color: black;
+    height: normal;
+  }
+
+  * {
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  /* // image container for category */
+  .Imagecontainer {
+    position: relative;
+    width: 50%;
+    max-width: 400px;
+  }
+  
+  .Imagecontainer img {
+    width: 100%;
+    height: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 7px 15px !important;
+    border-radius: 30px/10px !important; /* horizontal radius / vertical radius */
+  }
+  .Imagecontainer img:hover {
+    box-shadow: rgba(186, 73, 73, 0.35) 0px 5px 20px !important;
+  }
+  
+  .Imagecontainer .btn {
+    position: absolute;
+    top: 80%;
+    left: 21%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgba(51, 49, 49, 0.941);
+    color: white;
+    font-size: 40px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+  
+    text-align: center;
+  }
+  
+  .Imagecontainer .btn:hover {
+    background-color: black;
+  }
+  
+  /* // image container for category */
+  
+  .category-link a {
+    text-decoration: none !important;
+    color: black;
+    line-height: normal;
+  }
+  
+  /* ======= */
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+    .Imagecontainer img {
+      margin-top: 3rem !important;
+    }
+    .Imagecontainer .btn {
+      position: absolute;
+      top: 80%;
+      left: 26%;
+  
+      font-size: 30px;
+    }
+  }
+  h1 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    /* font-size: larger; */
+  }

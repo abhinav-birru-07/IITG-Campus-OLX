@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+/*
+.navbar {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: bold;
+    background-color: #063c5d !important;
+}
+.navbar .navbar-brand{
+    color: white !important;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.navbar .navbar-toggler-icon{
+ color: rgb(255, 255, 255) !important;
+}
+.navbar button:focus{
+ color: white !important;
+}
+.navbar .nav-link{
+    color: #DFF6FF !important;
+}
+
+.navbar .nav-item a:hover{
+
+    background: #7f99be;
+    border-radius: 50%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 2, 3) 0px 1px 3px -1px !important; 
+}
+.navbar .active{
+    border-radius: 50%;
+    background-color: #DFF6FF !important ;
+    color: #1363DF !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; 
+}
+
+
+.navbar-brand img {
+    max-height: 40px;
+    border-radius: 50%;
+}
+
+#usericon {
+    max-height: 30px;
+}
+.nav-item {
+    max-width: max-content;
+    padding: 0 10px;
+} */
+
+/* // ================================================================= */
+.sellMenu {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .sellMenu .all {
+    fill: white;
+  }
+  
+  .sellMenu .top {
+    fill: #23e5db;
+  }
+  
+  .sellMenu .left {
+    fill: #ffce32;
+  }
+  
+  .sellMenu .right {
+    fill: #3a77ff;
+  }
+  .sellMenu .sellMenuContent {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #002f34;
+  }
+  
+  .sellMenu .sellMenuContent svg {
+    align-items: center;
+  }
+  .sellMenu .sellMenuContent span {
+    margin-left: 5px;
+  }
+
+  .sellMenu {
+    width: 100px;
+  }
+
+
+
+.navbar {
+  font-family: 'Quicksand', sans-serif !important;
+    font-weight: bold;
+    background-color: #93a7b4 !important;
+    border-bottom: 3px solid black;
+}
+.navbar .navbar-brand{
+    color: white !important;
+    font-size: 2.5em;
+    font-family: 'Quicksand', sans-serif, 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.navbar .navbar-toggler-icon{
+ color: rgb(255, 255, 255) !important;
+}
+.navbar button:focus{
+ color: white !important;
+}
+.navbar .nav-link{
+    color: #DFF6FF !important;
+}
+.navbar-brand img {
+  max-height: 60px;
+  border-radius: 50%;
+}
+
+#usericon {
+  max-height: 30px;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #ddd;
+  text-transform: uppercase;
+}
+
+#navbarTogglerDemo02 ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+#navbarTogglerDemo02 ul li {
+  list-style-type: none;
+  margin-left: 20px;
+}
+
+#navbarTogglerDemo02 ul li .nav-link:hover {
+  font-size: 1.1em;
+  font-weight: 1.6em;
+  /* background-color: rgb(58, 88, 88); */
+}
+
+.sellMenu {
+  margin-left: 30px;
+}
+.sellMenu a{
+  font-size: 1.1em;
+}
+.sellMenu a:hover{
+  font-size: 1.2em;
+}
+
+.navbar .nav-item a.active{
+  background-color: #002f34;
+  border-bottom-left-radius: 30%;
+  border-top-left-radius: 30%;
+  border-top-right-radius: 30%;
+  border-bottom-right-radius: 30%;
+}
