@@ -26,23 +26,14 @@ const EditListing = () => {
   const [loading, setLoading] = useState(false);
   const [listing, setLisitng] = useState(null);
   const params = useParams();
-  // const [geoLoactionEnable, setGeoLocationEnable] = useState(true);
   const [formData, setFormData] = useState({
     type: "rent",
     name: "",
     productdiv: "cycle",
     description: "",
-    // bedrooms: 0,
-    // bathrooms: 0,
-    // parking: false,
-    // furnished: false,
     address: "",
-    // offer: false,
     price: 0,
-    // discountedPrice: 0,
     images: {},
-    // latitude: 0,
-    // longitude: 0,
   });
 
   const {
@@ -55,17 +46,9 @@ const EditListing = () => {
     matress,
     other,
     description,
-    // bedrooms,
-    // bathrooms,
-    // parking,
-    // furnished,
     address,
-    // offer,
     price,
-    // discountedPrice,
     images,
-    // latitude,
-    // longitude,
   } = formData;
 
   const auth = getAuth();
@@ -73,6 +56,7 @@ const EditListing = () => {
   const isMounted = useRef(true);
 
   useEffect(() => {
+    
     if (isMounted) {
       onAuthStateChanged(auth, (user) => {
         setFormData({
@@ -97,7 +81,8 @@ const EditListing = () => {
   useEffect(() => {
     setLoading(true);
     const fetchListing = async () => {
-      const docRef = doc(db, `${params.listingCat}s`, params.listingId);
+      const collName = `${params.listingCat}s`;
+      const docRef = doc(db, collName, params.listingId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setLisitng(docSnap.data());
@@ -106,7 +91,7 @@ const EditListing = () => {
       }
        else {
         navigate("/");
-        toast.error("Lisitng NOt Exists");
+        toast.error("Product does not exist");
       }
     };
     fetchListing();
@@ -164,7 +149,7 @@ const EditListing = () => {
           (snapshot) => {
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("uplloas is" + progress + "% done");
+            console.log("upload is" + progress + "% done");
             switch (snapshot.state) {
               case "paused":
                 // console.log("upload is paused");
@@ -205,11 +190,11 @@ const EditListing = () => {
     };
     formData.location = address;
     delete formDataCopy.images;
-    const docRef = doc(db, "${params.listingCat}s", params.listingId);
+    const docRef = doc(db, `${params.listingCat}s`, params.listingId);
     await updateDoc(docRef, formDataCopy);
     toast.success("Listing updated!!");
     setLoading(false);
-    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
+    navigate(`/category/${formDataCopy.productdiv}/${docRef.id}`);
   };
 
   return (
@@ -324,6 +309,19 @@ const EditListing = () => {
               />
               <label className="form-check-label" htmlFor="fashion">
                 fashion
+              </label>
+            </div>
+            <div className="form-check ms-3">
+              <input
+                className="form-check-input"
+                type="radio"
+                value="matress"
+                onChange={onChangeHandler}
+                name="productdiv"
+                id="productdiv"
+              />
+              <label className="form-check-label" htmlFor="matress">
+                matress
               </label>
             </div>
             <div className="form-check ms-3">
