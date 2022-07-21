@@ -63,7 +63,7 @@ const Header = () => {
                   {/* <img src="/usericon.png" id="usericon" /> */}
                 </NavLink>
               </li>
-              <li className="nav-item">
+              <li className="" id="sellNav">
                 <NavLink
                   className={`nav-link ${({ isActive }) =>
                     isActive ? "active" : "inactive"}`}

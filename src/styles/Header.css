@@ -166,3 +166,7 @@ nav {
   border-top-right-radius: 30%;
   border-bottom-right-radius: 30%;
 }
+
+#sellNav {
+  background-color: #93a7b4;
+}
