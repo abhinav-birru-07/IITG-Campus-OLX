@@ -69,19 +69,21 @@ const Header = () => {
                     isActive ? "active" : "inactive"}`}
                   to="/create-listing"
                 >
-                  <SellButton></SellButton>
-                  <div className="sellMenuContent">
-                    <p>SELL2</p>
+                  <div className="sellMenu">
+                    <SellButton></SellButton>
+                    <div className="sellMenuContent">
+                      <a href="/create-listing">SELL</a>
+                    </div>
                   </div>
                   {/* <img src="/usericon.png" id="usericon" /> */}
                 </NavLink>
               </li>
-              <div className="sellMenu">
+              {/* <div className="sellMenu">
                 <SellButton></SellButton>
                 <div className="sellMenuContent">
                   <a href="/create-listing">SELL</a>
                 </div>
-              </div>
+              </div> */}
             </ul>
           </div>
         </div>
