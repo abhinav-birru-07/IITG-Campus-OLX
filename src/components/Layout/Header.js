@@ -69,7 +69,10 @@ const Header = () => {
                     isActive ? "active" : "inactive"}`}
                   to="/create-listing"
                 >
-                  SELL 
+                  <SellButton></SellButton>
+                  <div className="sellMenuContent">
+                    <p>SELL2</p>
+                  </div>
                   {/* <img src="/usericon.png" id="usericon" /> */}
                 </NavLink>
               </li>
