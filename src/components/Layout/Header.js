@@ -63,6 +63,16 @@ const Header = () => {
                   {/* <img src="/usericon.png" id="usericon" /> */}
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink
+                  className={`nav-link ${({ isActive }) =>
+                    isActive ? "active" : "inactive"}`}
+                  to="/create-listing"
+                >
+                  SELL 
+                  {/* <img src="/usericon.png" id="usericon" /> */}
+                </NavLink>
+              </li>
               <div className="sellMenu">
                 <SellButton></SellButton>
                 <div className="sellMenuContent">
