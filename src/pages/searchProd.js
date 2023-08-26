@@ -16,7 +16,7 @@ import Spinner from "../components/Spinner";
 import ListingItem from "../components/ListingItem";
 import { url } from "./links";
 
-const Category = () => {
+const SearchProd = () => {
   const [listing, setListing] = useState("");
   const [lastFetchListing, setLastFetchListing] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -49,10 +49,10 @@ const Category = () => {
       //     });
       //   });
         const listings = [];
-        fetch(`${url}/get_docs_click`, {
+        fetch(`${url}/get_docs_search`, {
           method: 'POST',
           body: JSON.stringify({
-            category: params.categoryName
+            searchName: params.searchName
           }),
           headers: {
             'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const Category = () => {
     };
     //func call
     fetchListing();
-  }, [params.categoryName]);
+  }, []);
 
   //loadmore pagination func
   const fetchLoadMoreListing = async () => {
@@ -137,7 +137,7 @@ const Category = () => {
             </div>
           </>
         ) : (
-          <p>No Listing For {params.categoryName} </p>
+          <p>No Listing For {params.searchName} </p>
         )}
       </div>
       <div className="d-flex align-items-center justify-content-center mb-4 mt-4">
@@ -154,4 +154,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default SearchProd;

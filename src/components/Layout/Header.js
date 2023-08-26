@@ -1,23 +1,29 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, NavLink, Navigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import "../../styles/Header.css";
 import SellButton from "../../assets/SellButton";
-// import { db } from "../../firebase.config";
-// import { getDoc, doc } from "firebase/firestore";
-// import {
-//   getStorage,
-//   ref,
-// } from "firebase/storage";
 import "../../styles/Header.css";
 import { DocumentReference } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+
 const Header = () => {
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate()
+  const handleInputChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const handleSearch = () => {
+    console.log("search field is : ", search);
+    navigate(`/search/${search}`);
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-sm-top">
         <div className="container">
           <Link className="navbar-brand" to="/">
-             Campus OLX for <img src="/iitglogo.png" alt="iitglogo"  />
+            Campus OLX for <img src="/iitglogo.png" alt="iitglogo" />
           </Link>
           <button
             className="navbar-toggler"
@@ -44,6 +50,17 @@ const Header = () => {
                   Home
                 </NavLink>
               </li>
+              <li>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Search for a product"
+                    value={search}
+                    onChange={handleInputChange}
+                  />
+                  <button onClick={handleSearch}>Search</button>
+                </div>
+              </li>
               <li className="nav-item">
                 <NavLink
                   className={`nav-link ${({ isActive }) =>
@@ -59,7 +76,7 @@ const Header = () => {
                     isActive ? "active" : "inactive"}`}
                   to="/profile"
                 >
-                  Profile 
+                  Profile
                   {/* <img src="/usericon.png" id="usericon" /> */}
                 </NavLink>
               </li>

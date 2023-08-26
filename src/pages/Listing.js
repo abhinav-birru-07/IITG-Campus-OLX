@@ -7,10 +7,9 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import SwipeCore, { EffectCoverflow, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import "swiper/swiper-bundle.min.css";
-// import "swiper/swiper.min.css";
 import "swiper/css";
 import "swiper/css/bundle";
+import { url } from "./links";
 
 //config
 SwipeCore.use([EffectCoverflow, Pagination]);
@@ -24,13 +23,32 @@ const Listing = () => {
 
   useEffect(() => {
     const fetchListing = async () => {
-      const docRef = doc(db, `${params.categoryName}s`, params.listingId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        // console.log(docSnap.data());
-        setListing(docSnap.data());
-        setLoading(false);
-      }
+      fetch(`${url}/fetch_doc_id`, {
+        method: 'POST',
+        body: JSON.stringify({
+          doc_id: params.listingId
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+       .then((response) => response.json())
+       .then((data) => {
+          console.log(data);
+          console.log("successfully fetched the doc from elasticsearch");
+          setListing(data['_source']);
+          setLoading(false);
+       })
+       .catch((err) => {
+          console.log(err.message);
+       });
+      // const docRef = doc(db, `${params.categoryName}s`, params.listingId);
+      // const docSnap = await getDoc(docRef);
+      // if (docSnap.exists()) {
+      //   // console.log(docSnap.data());
+      //   setListing(docSnap.data());
+      //   setLoading(false);
+      // }
     };
     fetchListing();
   }, [params.listingId]);

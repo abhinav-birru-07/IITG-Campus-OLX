@@ -21,6 +21,7 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
+import { url } from "./links";
 
 const EditListing = () => {
   const [loading, setLoading] = useState(false);
@@ -32,19 +33,13 @@ const EditListing = () => {
     productdiv: "cycle",
     description: "",
     address: "",
-    price: 0,
+    price: 100,
     images: {},
   });
 
   const {
     type,
     name,
-    cycle,
-    book,
-    electronic,
-    fashion,
-    matress,
-    other,
     description,
     address,
     price,
@@ -56,7 +51,6 @@ const EditListing = () => {
   const isMounted = useRef(true);
 
   useEffect(() => {
-    
     if (isMounted) {
       onAuthStateChanged(auth, (user) => {
         setFormData({
@@ -81,18 +75,36 @@ const EditListing = () => {
   useEffect(() => {
     setLoading(true);
     const fetchListing = async () => {
-      const collName = `${params.listingCat}s`;
-      const docRef = doc(db, collName, params.listingId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setLisitng(docSnap.data());
-        setFormData({ ...docSnap.data() });
-        setLoading(false);
-      }
-       else {
-        navigate("/");
-        toast.error("Product does not exist");
-      }
+      fetch(`${url}/fetch_doc_id`, {
+        method: 'POST',
+        body: JSON.stringify({
+          doc_id: params.listingId
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        if(data){
+          console.log("fetched based on id")
+          console.log(data)
+          setLisitng(data['_source'])
+          setFormData({
+            type: data['_source']['type'],
+            name: data['_source']['name'],
+            productdiv: data['_source']['productdiv'],
+            description: data['_source']['description'],
+            address: data['_source']['address'],
+            price: data['_source']['price'],
+            images: null,
+          })
+          setLoading(false)
+        }else{
+          navigate("/");
+          toast.error("Product does not exist");
+        }
+      })
     };
     fetchListing();
   }, [navigate, params.listingId]);
@@ -180,21 +192,41 @@ const EditListing = () => {
       toast.error("Images not uploaded");
       return;
     });
-
+    let timeAdded = (new Date()).toISOString()
+    timeAdded = timeAdded.split('T')[0] + ' ' + timeAdded.split('T')[1].slice(0, -1);
     //save form data
     const formDataCopy = {
       ...formData,
       imgUrls,
       // geoLocation,
-      timestamp: serverTimestamp(),
+      // timestamp: serverTimestamp(),
+      timeAdded: timeAdded
     };
     formData.location = address;
     delete formDataCopy.images;
-    const docRef = doc(db, `${params.listingCat}s`, params.listingId);
-    await updateDoc(docRef, formDataCopy);
-    toast.success("Listing updated!!");
-    setLoading(false);
-    navigate(`/category/${formDataCopy.productdiv}/${docRef.id}`);
+    fetch(`${url}/update_prod`, {
+      method: 'POST',
+      body: JSON.stringify({
+        ...formDataCopy,
+        prodId: params.listingId
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    // .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      setLoading(false);
+      toast.success("Listing updated!!");
+      navigate(`/category/${formDataCopy.productdiv}/${params.listingId}`);
+    })
+    .catch((err) => {
+      console.log("issue in editing the required product!");
+      console.log(err.message);
+    })
+    // const docRef = doc(db, `${params.listingCat}s`, params.listingId);
+    // await updateDoc(docRef, formDataCopy);
   };
 
   return (

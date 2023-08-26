@@ -14,6 +14,7 @@ import CreateListing from "./pages/CreateListing";
 import Listing from "./pages/Listing";
 import Contact from "./pages/Contact";
 import EditListing from "./pages/EditListing";
+import SearchProd from "./pages/searchProd";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="/myProducts" element={<PrivateRoute />}>
           <Route path="/myProducts" element={<MyProducts />} />
         </Route>
+        <Route path="/search/:searchName" element={<SearchProd />} />
       </Routes>
     </BrowserRouter>
   );

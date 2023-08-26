@@ -17,6 +17,10 @@ import {
 } from "firebase/firestore";
 import ListingItem from "../components/ListingItem";
 import "../styles/myproducts.css"
+import { url } from "./links";
+import { onDeleteUtil } from "../components/utilOnDelete";
+
+
 const MyProducts = () => {
   const auth = getAuth();
   const navigate = useNavigate();
@@ -28,94 +32,34 @@ const MyProducts = () => {
     const fetchUserListings = async () => {
       // setLoading(true);
       let listings = [];
-      var listingRef = collection(db, "cycles");
-      var q = query(
-        listingRef,
-        where("useRef", "==", auth.currentUser.uid),
-        orderBy("timestamp", "desc")
-      );
-      var querySnap = await getDocs(q);
-      // console.log("query snap here, ", querySnap);
-      querySnap.forEach((doc) => {
-        return listings.push({
-          id: doc.id,
-          productdiv: "cycle",
-          data: doc.data(),
-        });
-      });
-      listingRef = collection(db, "books");
-      q = query(
-        listingRef,
-        where("useRef", "==", auth.currentUser.uid),
-        orderBy("timestamp", "desc")
-      );
-      querySnap = await getDocs(q);
-      querySnap.forEach((doc) => {
-        return listings.push({
-          id: doc.id,
-          productdiv: "book",
-          data: doc.data(),
-        });
-      });
-      listingRef = collection(db, "electronics");
-      q = query(
-        listingRef,
-        where("useRef", "==", auth.currentUser.uid),
-        orderBy("timestamp", "desc")
-      );
-      querySnap = await getDocs(q);
-      querySnap.forEach((doc) => {
-        return listings.push({
-          id: doc.id,
-          productdiv: "electronic",
-          data: doc.data(),
-        });
-      });
-      listingRef = collection(db, "fashions");
-      q = query(
-        listingRef,
-        where("useRef", "==", auth.currentUser.uid),
-        orderBy("timestamp", "desc")
-      );
-      querySnap = await getDocs(q);
-      querySnap.forEach((doc) => {
-        return listings.push({
-          id: doc.id,
-          productdiv: "fashion",
-          data: doc.data(),
-        });
-      });
-      listingRef = collection(db, "matresss");
-      q = query(
-        listingRef,
-        where("useRef", "==", auth.currentUser.uid),
-        orderBy("timestamp", "desc")
-      );
-      querySnap = await getDocs(q);
-      querySnap.forEach((doc) => {
-        return listings.push({
-          id: doc.id,
-          productdiv: "matress",
-          data: doc.data(),
-        });
-      });
-      listingRef = collection(db, "others");
-      q = query(
-        listingRef,
-        where("useRef", "==", auth.currentUser.uid),
-        orderBy("timestamp", "desc")
-      );
-      querySnap = await getDocs(q);
-      querySnap.forEach((doc) => {
-        return listings.push({
-          id: doc.id,
-          productdiv: "other",
-          data: doc.data(),
-        });
-      });
-      // console.log(listings);
-      setListings(listings);
-      setLoading(false);
+
+      fetch(`${url}/get_my_prod`, {
+        method: 'POST',
+        body: JSON.stringify({
+          useRef: auth.currentUser.uid
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+       .then((response) => response.json())
+       .then((data) => {
+          console.log(data)
+          console.log("successfully fetched the doc from elasticsearch");
+          data['hits']['hits'].forEach((doc) => {
+            return listings.push({
+              id: doc['_id'],
+              productdiv: doc['_source']['productdiv'],
+              data: doc['_source'],
+            });
+          });
+          setListings(listings);
+          console.log("listings:", listings);
+          setLoading(false);
+       })
+       .catch((err) => {
+          console.log(err.message);
+       });
     };
     fetchUserListings();
   }, [auth.currentUser.uid]);
@@ -125,18 +69,15 @@ const MyProducts = () => {
     email: auth.currentUser.email,
   });
 
-  //delete handler
+  // delete handler
   const onDelete = async (listingId, listingCat) => {
-    if (window.confirm("Are You Sure  want to delete ?")) {
-      // await deleteDoc(doc, (db, "listings", listingId));
-      await deleteDoc(doc(db, `${listingCat}s`, listingId));
-      const updatedListings = listings.filter(
-        (listing) => listing.id !== listingId
-      );
-      setListings(updatedListings);
-      toast.success("Listing Deleted Successfully");
-    }
-  };
+    await onDeleteUtil(listingId, listingCat);
+    const updatedListings = listings.filter(
+      (listing) => listing.id !== listingId
+    );
+    setListings(updatedListings);
+  }
+
 
   //edit handler
   const onEdit = (listingId, listingCat) => {

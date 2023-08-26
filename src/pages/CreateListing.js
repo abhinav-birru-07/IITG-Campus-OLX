@@ -14,6 +14,7 @@ import {
 } from "firebase/storage";
 import { db } from "../firebase.config";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { url } from "./links";
 
 const CreateListing = () => {
   const [loading, setLoading] = useState(false);
@@ -23,40 +24,18 @@ const CreateListing = () => {
     name: "",
     productdiv: "cycle",
     description: "",
-    // bedrooms: 0,
-    // bathrooms: 0,
-    // parking: false,
-    // furnished: false,
     address: "",
-    // offer: false,
     price: 0,
-    // discountedPrice: 0,
     images: {},
-    // latitude: 0,
-    // longitude: 0,
   });
 
   const {
     type,
     name,
-    cycle,
-    book,
-    electronic,
-    fashion,
-    matress,
-    other,
     description,
-    // bedrooms,
-    // bathrooms,
-    // parking,
-    // furnished,
     address,
-    // offer,
     price,
-    // discountedPrice,
     images,
-    // latitude,
-    // longitude,
   } = formData;
 
   const auth = getAuth();
@@ -75,7 +54,6 @@ const CreateListing = () => {
       navigate("/signin");
     }
 
-    // eslint-disable-next-line
   }, []);
 
   if (loading) {
@@ -110,12 +88,6 @@ const CreateListing = () => {
   //form submit
   const onSubmit = async (e) => {
     e.preventDefault();
-    // console.log(formData);
-    // if (discountedPrice >= price) {
-    //   setLoading(false);
-    //   toast.error("Discount Price should be less than Regular Price");
-    //   return;
-    // }
     if (images > 6) {
       setLoading(false);
       toast.error("Max 6 Images can be selected");
@@ -164,21 +136,37 @@ const CreateListing = () => {
       toast.error("Images not uploaded");
       return;
     });
-    // console.log(imgUrls);
 
+    let timeAdded = (new Date()).toISOString()
+    timeAdded = timeAdded.split('T')[0] + ' ' + timeAdded.split('T')[1].slice(0, -1);
     //save form data
     const formDataCopy = {
       ...formData,
       imgUrls,
       timestamp: serverTimestamp(),
+      timeAdded: timeAdded
     };
     formData.location = address;
     delete formDataCopy.images;
-    // !formDataCopy.offer && delete formDataCopy.discountedPrice;
-    const docRef = await addDoc(collection(db, `${formDataCopy.productdiv}s`), formDataCopy);
-    toast.success("Listing Created!");
-    setLoading(false);
-    navigate(`/category/${formDataCopy.productdiv}/${docRef.id}`);
+    fetch(`${url}/create_doc`, {
+      method: 'POST',
+      body: JSON.stringify(formDataCopy),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+       .then((response) => response.json())
+       .then((data) => {
+          console.log(data);
+          console.log("successfully stored the product data in elasticsearch");
+          toast.success("Listing Created!");
+          setLoading(false);
+          navigate(`/category/${formData.productdiv}/${data['_id']}`);
+       })
+       .catch((err) => {
+          console.log(err.message);
+       });
+    
   };
   return (
     <Layout>
